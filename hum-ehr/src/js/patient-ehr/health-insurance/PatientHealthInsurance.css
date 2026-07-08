@@ -1,0 +1,65 @@
+/* Health Insurance — styles ported from common-second-template.jsp
+   (main + view-details templates). List/detail rows reuse the shared
+   pc-list-each-details / patient-chart classes. */
+
+.patient-health-insurance-section .health-insurance-main-container {
+    border-radius: 15px;
+}
+.patient-health-insurance-section .pc-add-new-health-insurance-btn {
+    font-size: 11.9px !important;
+}
+.patient-health-insurance-section .pc-section-selected-detail-view-container {
+    height: 100%;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+/* List rows */
+.health-insurance-each-detail-container {
+    cursor: pointer;
+    border-radius: 8px;
+}
+.health-insurance-each-detail-container.active {
+    background-color: rgba(240, 250, 252, 1);
+    border: 1px solid rgba(1, 193, 209, 1);
+}
+.health-insurance-each-detail-deleted-container {
+    opacity: 0.7;
+}
+.health-insurance-name {
+    font-weight: 600;
+}
+.health-insurance-type.pc-list-each-details-type-radius-container {
+    padding: 4px 8px;
+    border: 1px solid var(--app-color2);
+    border-radius: var(--app-border-radius10, 10px);
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* View-details */
+.health-insurance-type-heading {
+    font-size: var(--app-font16, 16px);
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--app-color20, #37474f);
+}
+.show-details-main-container .icon-container .mdi {
+    cursor: pointer;
+    font-size: 18px;
+}
+.show-details-main-container .health-insurance-delete-icon {
+    color: #D50B0B;
+}
+.show-details-main-container .icon-container.disabled {
+    cursor: not-allowed !important;
+}
+.show-details-main-container .icon-container.disabled .mdi {
+    pointer-events: none;
+    opacity: 0.5;
+}
+.show-less-more-details-btn {
+    cursor: pointer;
+    color: var(--app-color2);
+    font-weight: 600;
+}

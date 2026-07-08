@@ -1,14 +1,17 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from 'react';
 import { DataTable, } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Paginator } from 'primereact/paginator';
-import PatientChart from '../patient-ehr/PatientChart';
 import { fetchActivePatients } from '../../services/patientService';
 import { DEBOUNCE_PATIENT_LIST_MS } from '../../constants/timing';
 import { useLayout } from '../../context/LayoutContext';
 import { useNotify } from '../../context/NotificationContext';
 import { useIsTabletOrBelow } from '../../hooks/useMediaQuery';
+import { SkeletonTable } from '../../components/common/ContentLoader';
 import './ActivePatientsList.css';
+
+// PatientChart (+ its 12 code-split sections) loads only when a patient tab opens.
+const PatientChart = lazy(() => import('../patient-ehr/PatientChart'));
 const DEFAULT_FILTERS = {
 	productCode: '',
 	facilityId: '',
@@ -23,8 +26,7 @@ const DEFAULT_FILTERS = {
 	searchColumn: 'PATIENNAME',
 };
 const ActivePatientsList = ({ activeTab, onOpenTab }) => {
-	const [patients, setPatients] = useState([]);
-	const [loading, setLoading] = useState(false);
+	const [patients, setPatients] = useState(null); // null = fetching (skeleton)
 	const [first, setFirst] = useState(0);
 	const [rows, setRows] = useState(10);
 	const [totalRecords, setTotalRecords] = useState(0);
@@ -43,7 +45,7 @@ const ActivePatientsList = ({ activeTab, onOpenTab }) => {
 	const loadPatients = useCallback(async () => {
 		if (!isPatientListTab)
 			return;
-		setLoading(true);
+		setPatients(null);
 		try {
 			const response = await fetchActivePatients(requestParams);
 			setPatients(response.rows);
@@ -54,10 +56,8 @@ const ActivePatientsList = ({ activeTab, onOpenTab }) => {
 		}
 		catch (error) {
 			console.error('Failed to load active patients.', error);
+			setPatients([]);
 			notifyError(error?.message || 'Unable to load patients. Please try again.');
-		}
-		finally {
-			setLoading(false);
 		}
 	}, [isPatientListTab, requestParams, notifyError]);
 
@@ -127,7 +127,7 @@ const ActivePatientsList = ({ activeTab, onOpenTab }) => {
 		return (<div className="container-fluid tab-content hh-ehr-bg-color9 p-0 h-100 position-relative">
 			<div className="tab-pane patient-chart-tab-pane fade show active" id={`${activeTab}_chart_tab_pane`} role="tabpanel">
 				<div id={`patient_chart_wrapper_${activeTab}`} className="p-0 bg-white rounded">
-					<PatientChart patientId={activeTab} />
+					<Suspense fallback={<SkeletonTable/>}><PatientChart patientId={activeTab} /></Suspense>
 				</div>
 			</div>
 		</div>);
@@ -152,9 +152,9 @@ const ActivePatientsList = ({ activeTab, onOpenTab }) => {
 			</div>
 
 			{showCards ? (<div className="patient-card-list mt-2">
-					{loading && <div className="p-3 text-muted small">Loading patients...</div>}
-					{!loading && patients.length === 0 && <div className="p-3 text-muted">No patients found.</div>}
-					{patients.map((patient) => (<div key={patient.patientId} className="patient-card card mb-2 shadow-sm">
+					{patients === null && <SkeletonTable />}
+					{patients !== null && patients.length === 0 && <div className="p-3 text-muted">No patients found.</div>}
+					{(patients || []).map((patient) => (<div key={patient.patientId} className="patient-card card mb-2 shadow-sm">
 						<div className="card-body p-2">
 							<div className="d-flex justify-content-between align-items-start gap-2">
 								{nameBodyTemplate(patient)}
@@ -170,7 +170,7 @@ const ActivePatientsList = ({ activeTab, onOpenTab }) => {
 						</div>
 					</div>))}
 					{totalRecords > 0 && (<Paginator first={first} rows={rows} totalRecords={totalRecords} onPageChange={onPageChange} rowsPerPageOptions={[5, 10, 25, 50]} />)}
-				</div>) : (loading ? <SkeletonTable /> : <div className="active-patient-table-scroll">
+				</div>) : (patients === null ? <SkeletonTable /> : <div className="active-patient-table-scroll">
 					<DataTable value={patients} lazy paginator first={first} rows={rows} totalRecords={totalRecords} onPage={onPageChange} sortField={sortMeta.sortField} sortOrder={sortMeta.sortOrder} onSort={onSortChange} rowsPerPageOptions={[5, 10, 25, 50]} emptyMessage="No patients found." scrollable scrollHeight="65vh" className="p-datatable-striped active-patient-table" id="care_group_active_patients" tableClassName="table table-hover border w-100">
 					<Column field="sno" header="S.No" style={{ width: '70px' }} body={(row) => <div className="table-data">{row.sno}</div>} />
 					<Column field="fullName" header="Name" sortable style={{ width: '180px' }} body={nameBodyTemplate} />

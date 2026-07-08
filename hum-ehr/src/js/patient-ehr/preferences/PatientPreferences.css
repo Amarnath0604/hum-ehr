@@ -1,0 +1,36 @@
+/* Preferences — list/detail reuse shared pc-* classes; section-specific bits only. */
+.preferences-sub-section-toggle-group .nav-link {
+    font-size: 12px;
+}
+.each-preferences-detail-container {
+    cursor: pointer;
+    border-radius: 8px;
+}
+.each-preferences-detail-container.active {
+    background-color: rgba(240, 250, 252, 1);
+    border: 1px solid rgba(1, 193, 209, 1);
+}
+.each-preferences-detail-container.in-active-deleted-record {
+    opacity: 0.85;
+}
+.preferences-name {
+    font-weight: 600;
+}
+.preferences-details-main-container .preferences-action-icons .mdi {
+    cursor: pointer;
+    font-size: 18px;
+}
+.preferences-details-main-container .delete-preferences-icon {
+    color: #D50B0B;
+}
+.preferences-details-main-container .view-more-care-preferences-btn {
+    cursor: pointer;
+    color: var(--app-color2, #01c1d1);
+    font-weight: 600;
+}
+.pc-patient-view-preferences-report {
+    cursor: pointer;
+    color: #089BAB;
+    font-weight: 600;
+    text-decoration: underline;
+}

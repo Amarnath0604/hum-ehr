@@ -1,0 +1,78 @@
+/* Goals — styles ported from patient-chart-section-template.jsp
+   (pc_patient_goals_main_template + pc_patient_goal_add_edit_template). The list /
+   detail rows reuse the shared pc-list-each-details / patient-chart classes. */
+
+.pc-goals-action-container {
+    display: flex;
+    align-items: center;
+}
+
+/* Left-rail goal list rows */
+.goals-each-detail-container {
+    cursor: pointer;
+    border-radius: 8px;
+}
+.goals-each-detail-container.active {
+    background-color: rgba(240, 250, 252, 1);
+    border: 1px solid rgba(1, 193, 209, 1);
+}
+.goals-each-detail-container.in-active-deleted-record {
+    opacity: 0.7;
+}
+.list-goal-name {
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* View-details action icons */
+.goals-action-icons .edit-goals-icon,
+.goals-action-icons .delete-goals-icon {
+    cursor: pointer;
+    font-size: 18px;
+}
+.goals-action-icons .delete-goals-icon { color: #D50B0B; }
+.goals-action-icons .disabled { pointer-events: none; opacity: 0.5; }
+
+/* Add/Edit — custom toggle switch (verbatim from the JSP add/edit template). */
+.custom-switch {
+    position: relative;
+    width: 48px;
+    height: 24px;
+}
+.custom-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider {
+    position: absolute;
+    inset: 0;
+    background-color: #E9ECEF; /* OFF grey */
+    border-radius: 50px;
+    transition: 0.3s;
+    cursor: pointer;
+}
+.slider::before {
+    content: "";
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    left: 2px;
+    top: 2px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    transition: 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.custom-switch input:checked + .slider {
+    background-color: var(--app-color2) !important;
+    border-color: var(--app-color2) !important;
+}
+.custom-switch input:checked + .slider::before {
+    transform: translateX(24px);
+}
+
+/* Goal-name react-select menu scrollbar (consistent with other lookups). */
+.react-select__menu-list { max-height: 240px; }

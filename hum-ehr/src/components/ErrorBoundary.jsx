@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { reportError } from '../services/errorMonitoring';
 /**
  * Catches render-time errors in the subtree and shows a recoverable fallback
  * instead of unmounting the whole app to a blank screen. This is the one place
@@ -15,6 +16,7 @@ class ErrorBoundary extends Component {
     }
     componentDidCatch(error, info) {
         console.error('Unhandled UI error.', error, info);
+        reportError(error);
     }
     handleReset = () => this.setState({ hasError: false, error: null });
     render() {

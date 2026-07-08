@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { fetchProblemIcdLookup } from '../../../services/lookupService';
 import { getFormattedIcdCode } from '../../../utils/commonUtility';
 import { DEBOUNCE_LOOKUP_MS, LOOKUP_MIN_CHARS } from '../../../constants/timing';
+import '../../../components/common/ContentLoader.css';
 const mapIcdItem = (item) => {
     const code = getFormattedIcdCode(item.icdCode || '');
     const description = item.icdDescription || '';
@@ -15,7 +16,7 @@ const mapIcdItem = (item) => {
  */
 const ProblemIcdLookupInput = ({ id, label, value, disabled = false, required = false, placeholder = '', onChange, onSelect, }) => {
     const [options, setOptions] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [searching, setSearching] = useState(false);
     const [open, setOpen] = useState(false);
     const blurTimer = useRef(null);
     const skipSearchRef = useRef(false);
@@ -32,7 +33,7 @@ const ProblemIcdLookupInput = ({ id, label, value, disabled = false, required = 
         }
         let ignore = false;
         const timer = window.setTimeout(async () => {
-            setLoading(true);
+            setSearching(true);
             try {
                 const response = await fetchProblemIcdLookup(searchText);
                 if (ignore)
@@ -48,7 +49,7 @@ const ProblemIcdLookupInput = ({ id, label, value, disabled = false, required = 
             }
             finally {
                 if (!ignore)
-                    setLoading(false);
+                    setSearching(false);
             }
         }, DEBOUNCE_LOOKUP_MS);
         return () => {
@@ -74,9 +75,7 @@ const ProblemIcdLookupInput = ({ id, label, value, disabled = false, required = 
         </label>)}
       <input id={id} type="text" autoComplete="off" className="form-control text-capitalize" value={value || ''} placeholder={placeholder} disabled={disabled} onChange={(event) => { onChange?.(event.target.value); setOpen(true); }} onFocus={() => { if (options.length) setOpen(true); }} onBlur={() => { blurTimer.current = window.setTimeout(() => setOpen(false), 150); }}/>
       <span className="problem-lookup-search-icon input-icon input-icon-left-align mdi mdi-magnify"/>
-      {loading && (<span className="small text-muted position-absolute end-0 pe-2" style={{ top: label ? 38 : 8 }}>
-          Loading...
-        </span>)}
+      {searching && (<span className="cl-skeleton-bar position-absolute end-0 me-2" style={{ top: label ? 42 : 12, width: 60 }}/>)}
       {showMenu && (<ul className="dropdown-menu show w-100" role="listbox" style={{ position: 'absolute', top: '100%', left: 0, zIndex: 1080, maxHeight: 240, overflowY: 'auto' }}>
           {options.map((option) => (<li key={`${option.code}_${option.description.slice(0, 16)}`}>
               <button type="button" className="dropdown-item text-wrap small" role="option" onMouseDown={(event) => { event.preventDefault(); handleSelect(option); }}>

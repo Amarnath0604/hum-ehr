@@ -27,8 +27,8 @@ const formatAddress = (p) => [p.addressLineOne, p.addressLineTwo, p.city, p.stat
     .filter((part) => String(part || '').trim())
     .join(', ');
 const PatientDemographics = ({ patientId }) => {
-    const [patientDetails, setPatientDetails] = useState(null);
-    const [loading, setLoading] = useState(true);
+    // undefined = fetching (skeleton), null = fetch failed.
+    const [patientDetails, setPatientDetails] = useState(undefined);
     const [isDownloading, setIsDownloading] = useState(false);
     useEffect(() => {
         let ignore = false;
@@ -38,26 +38,26 @@ const PatientDemographics = ({ patientId }) => {
             const cached = patientCache.get(`${patientId}_details`);
             if (cached) {
                 setPatientDetails(cached);
-                setLoading(false);
                 return;
             }
-            setLoading(true);
+            setPatientDetails(undefined);
             try {
                 const response = await fetchPatientDetails(patientId);
-                if (!ignore && response?.status === 'success') {
-                    const data = response.data || {};
-                    patientCache.set(`${patientId}_details`, data.patientDetails);
-                    patientCache.set(`${patientId}_subscribedProducts`, data.subscribedProducts);
-                    patientCache.set(`${patientId}_sdohHistory`, data.sdohVisitHisotryDetails);
-                    setPatientDetails(data.patientDetails || null);
+                if (!ignore) {
+                    if (response?.status === 'success') {
+                        const data = response.data || {};
+                        patientCache.set(`${patientId}_details`, data.patientDetails);
+                        patientCache.set(`${patientId}_subscribedProducts`, data.subscribedProducts);
+                        patientCache.set(`${patientId}_sdohHistory`, data.sdohVisitHisotryDetails);
+                        setPatientDetails(data.patientDetails || null);
+                    }
+                    else setPatientDetails(null);
                 }
             }
             catch (error) {
                 console.error('Failed to fetch patient details.', error);
-            }
-            finally {
                 if (!ignore)
-                    setLoading(false);
+                    setPatientDetails(null);
             }
         };
         loadPatientDetails();
@@ -85,7 +85,7 @@ const PatientDemographics = ({ patientId }) => {
             setIsDownloading(false);
         }
     };
-    if (loading)
+    if (patientDetails === undefined)
         return (
             <div className="patient-demographics-container-node">
                 <div className="pd-patient-demographics-main-container">

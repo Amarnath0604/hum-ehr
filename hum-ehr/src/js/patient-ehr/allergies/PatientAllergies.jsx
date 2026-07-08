@@ -48,13 +48,12 @@ const PatientAllergies = ({ patientId }) => {
     const [refreshKey, setRefreshKey] = useState(0);
     const [lookups, setLookups] = useState(EMPTY_LOOKUPS);
     const [filterForm, setFilterForm] = useState(EMPTY_FILTERS);
-    const [metadataLoading, setMetadataLoading] = useState(false);
+
     const { notifyError } = useNotify();
     const isNkaOrNkdaFilter = useMemo(() => ['NKA', 'NKDA'].includes(filterForm.allergyType || ''), [filterForm.allergyType]);
     useEffect(() => {
         let ignore = false;
         const loadAllergyMetadata = async () => {
-            setMetadataLoading(true);
             try {
                 const metadata = await fetchAllergyMetadata();
                 if (ignore)
@@ -73,10 +72,6 @@ const PatientAllergies = ({ patientId }) => {
                 console.error('Failed to load allergy metadata.', error);
                 if (!ignore)
                     notifyError(error?.message || 'Unable to load allergy reference data.');
-            }
-            finally {
-                if (!ignore)
-                    setMetadataLoading(false);
             }
         };
         loadAllergyMetadata();

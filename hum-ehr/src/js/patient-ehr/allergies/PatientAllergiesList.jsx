@@ -35,8 +35,7 @@ const NoAllergyData = ({ recordType, showDeleted }) => {
     return (<NoDataAvailable desc={`No ${label} recorded yet!`} />);
 };
 const PatientAllergiesList = ({ patientId, recordType, showDeleted, searchTerm, advancedFilters, refreshKey, onEdit, onRecoverEdit, onRefresh, }) => {
-    const [records, setRecords] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [records, setRecords] = useState(null); // null = fetching (skeleton)
     const [expandedReactions, setExpandedReactions] = useState({});
     const [expandedDescription, setExpandedDescription] = useState({});
     const { notifyError, notifySuccess } = useNotify();
@@ -45,7 +44,7 @@ const PatientAllergiesList = ({ patientId, recordType, showDeleted, searchTerm, 
     const loadAllergies = useCallback(async () => {
         if (!patientId)
             return;
-        setLoading(true);
+        setRecords(null);
         try {
             const response = await fetchPatientAllergies({ patientId, recordType, showDeleted, searchTerm, advancedFilters });
             const currentRecords = response.records || [];
@@ -57,9 +56,6 @@ const PatientAllergiesList = ({ patientId, recordType, showDeleted, searchTerm, 
             console.error('Failed to load patient allergies.', error);
             setRecords([]);
             notifyError(error?.message || 'Unable to load allergies. Please try again.');
-        }
-        finally {
-            setLoading(false);
         }
     }, [advancedFilters, cacheKey, patientId, recordType, searchTerm, showDeleted, notifyError]);
     useEffect(() => {
@@ -131,7 +127,7 @@ const PatientAllergiesList = ({ patientId, recordType, showDeleted, searchTerm, 
           </button>)}
       </div>);
     };
-    if (loading)
+    if (records === null)
         return (
             <div className="pa-allergy-table-outer bg-white border mt-2">
               <div className="table-responsive">

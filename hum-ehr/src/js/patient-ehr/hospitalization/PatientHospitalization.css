@@ -1,0 +1,203 @@
+/* Hospitalization — styles ported verbatim from patient-chart-section-template.jsp
+   (pc_patient_chart_hospitalization_list_template_id + _add_edit_template_id).
+   The per-patient `id` selectors from the JSP are matched here by wrapper/attribute
+   selectors instead, since React appends the patientId to element ids. */
+
+/* ---- list header search ---- */
+.pc-patient-hospitalization-search-wrapper input {
+    background-color: var(--app-color16);
+    border: none;
+    border-radius: var(--app-border-radius20);
+}
+.pc-patient-hospitalization-search-wrapper .input-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #8a8a8a;
+    pointer-events: none;
+}
+.filter-class, .filter-class:active, .filter-class:hover {
+    border: 1px solid rgba(215, 221, 227, 1);
+    background-color: #fff;
+    border-radius: 6px;
+}
+.pc-patient-hospitalization-search-wrapper.patient-chart-search-input-icon-container {
+    margin-left: 0px;
+}
+
+/* ---- timeline list ---- */
+.timeline-hosp {
+    padding-left: 10px;
+    position: relative;
+    margin: 10px 10px 10px 0px;
+}
+.timeline-hosp-indicator {
+    background: none repeat scroll 0 0 #DEDEDE;
+    border-radius: 50%;
+    display: block;
+    height: 10px;
+    width: 10px;
+    position: relative;
+    z-index: 0;
+}
+.w-8 { width: 8%; }
+.w-92 { width: 92%; }
+.pc-patient-hospitalization-record-wrapper {
+    margin-left: 5px;
+    border-left: 1px solid #DEDEDE;
+}
+.pc-patient-chart-hospitalization-record.active .timeline-hosp-indicator {
+    background-color: rgba(8, 155, 171, 1) !important;
+}
+.pc-patient-chart-hospitalization-record.active .pc-patient-hospitalization-record-wrapper {
+    border-left: 1px solid rgba(1, 193, 209, 1) !important;
+}
+.hospital-border {
+    border: 1px solid rgba(229, 231, 235, 1);
+    border-radius: 14px;
+}
+.pc-patient-chart-hospitalization-record.active .hospital-border {
+    border: 1px solid rgba(1, 193, 209, 1) !important;
+}
+.active-indicator-text {
+    background-color: rgba(0, 178, 193, 1);
+    color: #fff;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+.default-background {
+    background-color: rgba(243, 244, 246, 1);
+    border-radius: 14px;
+}
+.active > .default-background {
+    border-bottom-left-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+    background-color: rgba(240, 250, 252, 1) !important;
+    color: rgba(0, 178, 193, 1) !important;
+}
+.pc-patient-chart-hospitalization-list-element-wrapper .action-icon-dropdown-group .action-icon-dropdown-menu-list {
+    min-width: 160px;
+}
+.hospitalization-list-action-items li > div {
+    cursor: pointer;
+    padding: 4px 10px;
+}
+.marked-as-error .hospital-border {
+    background-color: rgba(254, 245, 245, 1) !important;
+}
+.error-marked-chip {
+    background-color: rgba(239, 68, 68, 1);
+    color: rgba(255, 255, 255, 1);
+    border-radius: 4px;
+}
+.pch-hospital-label { font-weight: 600; }
+.hospitalization-record-icon { position: relative; }
+
+/* ---- add / edit form ---- */
+.pch-hospitalization-add-form-content {
+    border: 1px solid #D7DDE3;
+    border-radius: 12px;
+}
+.clinical-diagnosis-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.ehr-order-add-new-diagnosis {
+    cursor: pointer;
+    color: #149744;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: underline;
+}
+[id^="ehr_add_order_patient_problem_drop_down_button"] {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    border: 1px solid #dee2e6;
+    padding: 6px 12px;
+    border-radius: 6px;
+    line-height: 1.5;
+    font-size: 14px;
+    color: #526172;
+    cursor: pointer;
+}
+.ehr-order-problem-list-drop-down-menu-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--app-color2);
+}
+.clinical-test-problem-list-container .nav-link {
+    border-radius: 99px;
+    background-color: #F2EFEF;
+    border: none;
+    padding: 4px 8px;
+    color: rgba(134, 134, 134, 0.50);
+}
+.clinical-test-problem-list-type { padding: 4px 8px; }
+.clinical-test-problem-list-container .nav-link.active {
+    background-color: #BFFAFF;
+    color: var(--app-color2);
+}
+.ehr-order-problem-list-drop-down-menu {
+    width: 604px;
+    max-width: 92vw;
+    max-height: 250px;
+    padding: 10px;
+    overflow-y: auto;
+}
+.clinical-test-problem-list-container {
+    display: inline-flex;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 99px;
+    border: 1px solid #D7DDE3;
+    background: #F2EFEF;
+    padding-bottom: 1px;
+}
+.ehr-order-patient-problem-tab, .ehr-order-patient-encounter-problem-tab, .ehr-order-diagnosis-save {
+    cursor: pointer;
+}
+.clinical-test-problem-list-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 8px 0px 8px 0px;
+}
+.ehr-add-order-selected-problems-code { color: #3C6691; font-weight: 600; }
+.ehr-add-order-selected-problems-description { color: #37474F; font-weight: 600; }
+.ehr-add-order-selected-problems-container { margin-bottom: 5px; }
+.ehr-add-order-selected-problems {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #F0ECEC;
+    border-radius: 2px;
+    padding: 5px 6px;
+    margin-top: 3px;
+    gap: 4px;
+}
+.clinical-test-selected-problemes-code-description {
+    display: flex;
+    align-items: flex-start;
+    margin-left: 6px;
+    gap: 6px;
+}
+.clinical-test-selected-problem-remove-container {
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    border-radius: 50%;
+    background-color: #FAEAEA;
+    line-height: 6px;
+}
+.ehr-add-order-selected-problem-remove-icon {
+    height: 10px !important;
+    width: 10px !important;
+    color: #D50B0B;
+    cursor: pointer;
+}

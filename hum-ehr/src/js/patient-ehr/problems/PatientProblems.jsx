@@ -18,7 +18,6 @@ const PatientProblems = ({ patientId }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [refreshKey, setRefreshKey] = useState(0);
     const [statusMetadata, setStatusMetadata] = useState(EMPTY_METADATA);
-    const [metadataLoading, setMetadataLoading] = useState(false);
     const [filterForm, setFilterForm] = useState({ type: '' });
     const { notifyError } = useNotify();
     useEffect(() => {
@@ -29,7 +28,6 @@ const PatientProblems = ({ patientId }) => {
                 setStatusMetadata(cached);
                 return;
             }
-            setMetadataLoading(true);
             try {
                 const metadata = await fetchProblemStatusMetadata();
                 if (ignore)
@@ -41,10 +39,6 @@ const PatientProblems = ({ patientId }) => {
                 console.error('Failed to load problem status metadata.', error);
                 if (!ignore)
                     notifyError(error?.message || 'Unable to load problem reference data.');
-            }
-            finally {
-                if (!ignore)
-                    setMetadataLoading(false);
             }
         };
         loadMetadata();
@@ -83,11 +77,11 @@ const PatientProblems = ({ patientId }) => {
               <div className="pp-problems-header-input-group d-flex align-items-center gap-2 flex-wrap">
                 <div className="active-history-toggle-group">
                   <ul className="nav nav-pills active-history-toggle-group-list toggle-group-small" role="tablist">
-                    <li className="nav-item">
-                      <button className={`nav-link small ${recordType === 'active' ? 'active' : ''}`} onClick={() => handleRecordTypeChange('active')} type="button">Active</button>
+                    <li className="nav-item active-history-toggle-list">
+                      <button className={`nav-link active-history-nav-link small ${recordType === 'active' ? 'active' : ''}`} onClick={() => handleRecordTypeChange('active')} type="button">Active</button>
                     </li>
-                    <li className="nav-item">
-                      <button className={`nav-link small ${recordType === 'history' ? 'active' : ''}`} onClick={() => handleRecordTypeChange('history')} type="button">History</button>
+                    <li className="nav-item active-history-toggle-list">
+                      <button className={`nav-link active-history-nav-link small ${recordType === 'history' ? 'active' : ''}`} onClick={() => handleRecordTypeChange('history')} type="button">History</button>
                     </li>
                   </ul>
                 </div>
@@ -113,8 +107,6 @@ const PatientProblems = ({ patientId }) => {
               </div>
             </div>
           </div>
-
-          {metadataLoading && <div className="small text-muted mb-2">Loading problem master data...</div>}
 
           <div className="pp-problems-list-body">
             <PatientProblemsList patientId={patientId} recordType={recordType} showDeleted={showDeleted} searchTerm={searchTerm} filterType={filterForm.type} refreshKey={refreshKey} onEdit={(record) => openAddEdit(record, 'edit')} onRecoverEdit={(record) => openAddEdit(record, 'recover')} onRefresh={() => setRefreshKey((key) => key + 1)}/>

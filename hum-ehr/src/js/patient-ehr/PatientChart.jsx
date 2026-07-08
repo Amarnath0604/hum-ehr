@@ -1,9 +1,23 @@
-import { useState } from 'react';
+import { lazy, Suspense, useState } from 'react';
 import PatientDemographics from './PatientDemographics';
 import PatientChartSideMenu from './PatientChartSideMenu';
-import PatientAllergies from './allergies/PatientAllergies';
-import PatientProblems from './problems/PatientProblems';
+import { SkeletonTable } from '../../components/common/ContentLoader';
 import './PatientChart.css';
+
+// Each clinical section is code-split: opening a patient loads only the shell +
+// demographics + side menu; a section's bundle loads the first time it is opened.
+const PatientProfile = lazy(() => import('./profile/PatientProfile'));
+const PatientAllergies = lazy(() => import('./allergies/PatientAllergies'));
+const PatientProblems = lazy(() => import('./problems/PatientProblems'));
+const PatientHospitalization = lazy(() => import('./hospitalization/PatientHospitalization'));
+const PatientGoals = lazy(() => import('./goals/PatientGoals'));
+const PatientImmunization = lazy(() => import('./immunization/PatientImmunization'));
+const PatientImplantableDevice = lazy(() => import('./implantable-device/PatientImplantableDevice'));
+const PatientFamilyHistory = lazy(() => import('./family-history/PatientFamilyHistory'));
+const PatientPreferences = lazy(() => import('./preferences/PatientPreferences'));
+const PatientDocuments = lazy(() => import('./documents/PatientDocuments'));
+const PatientProcedure = lazy(() => import('./procedure/PatientProcedure'));
+const PatientSurgicalHistory = lazy(() => import('./surgical-history/PatientSurgicalHistory'));
 const PatientChart = ({ patientId }) => {
     const [section, setSection] = useState('PCSUM');
     const renderTabContentBody = () => {
@@ -11,7 +25,7 @@ const PatientChart = ({ patientId }) => {
             case 'PCSUM':
                 return <div className="tab-pane fade show active">Summary Profile Core Dashboard View</div>;
             case 'PCPP':
-                return <patient-chart-patient-profile patient-id={patientId}/>;
+                return <PatientProfile patientId={patientId}/>;
             case 'PCAPP':
                 return <div className="tab-pane fade show active">Appointments Log Workspace Canvas</div>;
             case 'PCALL':
@@ -21,25 +35,25 @@ const PatientChart = ({ patientId }) => {
             case 'PCENC':
                 return <patient-encounter patient-id={patientId} record-type="active"/>;
             case 'PCPS':
-                return <patient-ehr-procedure-details-main-element patient-id={patientId} section-code="PROCEDURE" record-type="active"/>;
+                return <PatientProcedure patientId={patientId}/>;
             case 'PCHPS':
-                return <patient-ehr-hospitalization patient-id={patientId} section-code="HOSPITALIZATION" record-type="active"/>;
+                return <PatientHospitalization patientId={patientId}/>;
             case 'PCSUH':
-                return <patient-surgical-history patient-id={patientId} section-code="SUH"/>;
+                return <PatientSurgicalHistory patientId={patientId}/>;
             case 'PCMED':
                 return <ehr-orders-main-element order-type="EHR-MEDI-ORDER" is-patient-chart="Y" patient-id={patientId}/>;
             case 'PCFAH':
-                return <patient-family-history is-patient-chart="Y" patient-id={patientId}/>;
+                return <PatientFamilyHistory patientId={patientId}/>;
             case 'PCPRE':
-                return <patient-ehr-preferences patient-id={patientId}/>;
+                return <PatientPreferences patientId={patientId}/>;
             case 'PCIMP':
-                return <patient-implantable-device patient-id={patientId} data-record-type="active" invalid-flag=""/>;
+                return <PatientImplantableDevice patientId={patientId}/>;
             case 'PCVIT':
                 return <patient-ehr-vitals patient-id={patientId}/>;
             case 'PCIMM':
-                return <patient-immunization patient-id={patientId}/>;
+                return <PatientImmunization patientId={patientId}/>;
             case 'PCGOAL':
-                return <patient-goals patient-id={patientId}/>;
+                return <PatientGoals patientId={patientId}/>;
             case 'NTRN':
                 return <patient-nutrition-recommandation patient-id={patientId} record-type="active"/>;
             case 'PCCLT':
@@ -49,7 +63,7 @@ const PatientChart = ({ patientId }) => {
             case 'PCHSA':
                 return <patient-health-status-assessment patient-id={patientId}/>;
             case 'PCDOC':
-                return <patient-ehr-documents patient-id={patientId}/>;
+                return <PatientDocuments patientId={patientId}/>;
             case 'PCREF':
                 return <patient-ehr-referrals patient-id={patientId} patient-chart="Y"/>;
             default:
@@ -70,7 +84,9 @@ const PatientChart = ({ patientId }) => {
 
             <div className="pc-patient-chart-side-menu-contents flex-grow-1">
               <div className="tab-content pc-patient-chart-side-menu-tabContent h-100 w-100">
-                {renderTabContentBody()}
+                <Suspense fallback={<SkeletonTable/>}>
+                  {renderTabContentBody()}
+                </Suspense>
               </div>
             </div>
           </div>

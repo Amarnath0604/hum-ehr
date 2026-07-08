@@ -1,4 +1,4 @@
-import moment from 'moment-timezone';
+import moment from './dayjs';
 /** Global selector strings retained for cross-script reference stability. */
 export const SELECTORS = {
     applicationInfoCloseIcon: '.app-info-close-icon',

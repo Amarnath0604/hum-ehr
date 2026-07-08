@@ -1,5 +1,6 @@
 import ENDPOINTS from './endpoints';
 import { apiGet, apiPost, apiPostForm } from './apiClient';
+import { getLoggedInUser } from './authService';
 /**
  * HumCode lists come back as an object map keyed by code
  * ({ ACTIVE: { code, description }, ... }); flatten to an array. Mirrors the
@@ -18,7 +19,8 @@ export const humCodeListToArray = (response) => {
     }));
 };
 export const fetchHumCodeList = (groupCode) => apiGet(ENDPOINTS.lookup.humCodes(groupCode));
-export const fetchMultipleHumCodes = (groupCodes = []) => apiPost(ENDPOINTS.lookup.multipleHumCodes, {
+// Legacy request.postRequest = form-urlencoded (the endpoint 404s on JSON bodies).
+export const fetchMultipleHumCodes = (groupCodes = []) => apiPostForm(ENDPOINTS.lookup.multipleHumCodes, {
     groupCodes: Array.isArray(groupCodes) ? groupCodes.join(',') : groupCodes,
 });
 export const fetchAllergyLookup = ({ conceptCategory, searchParameter = '', }) => {
@@ -50,7 +52,8 @@ export const fetchProblemStatusMetadata = async () => {
 };
 export const fetchSubscribedProducts = () => apiGet(ENDPOINTS.lookup.subscribedProducts);
 export const fetchFacilities = () => apiGet(ENDPOINTS.lookup.facilities);
-export const fetchPhysiciansInCareGroup = () => apiGet(ENDPOINTS.lookup.physiciansInCareGroup);
+// Legacy getRequest appends the logged-in user id; the /physicians endpoint expects it.
+export const fetchPhysiciansInCareGroup = () => apiGet(`${ENDPOINTS.lookup.physiciansInCareGroup}?id=${getLoggedInUser()?.userId || ''}`);
 export const fetchClinicians = () => apiGet(ENDPOINTS.lookup.clinicians);
 export const fetchTimeZones = () => apiGet(ENDPOINTS.lookup.timeZones);
 const dataOrEmpty = (response) => response?.status === 'success' ? response.data ?? [] : [];

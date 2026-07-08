@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { fetchAllergyLookup } from '../../../services/lookupService';
 import { DEBOUNCE_LOOKUP_MS, LOOKUP_MIN_CHARS } from '../../../constants/timing';
+import '../../../components/common/ContentLoader.css';
 const mapLookupItem = (item) => ({
     id: item.id,
     code: item.code,
@@ -17,7 +18,7 @@ const mapLookupItem = (item) => ({
  */
 const PatientAllergyLookupInput = ({ id, label, conceptCategory, value, disabled = false, required = false, placeholder = '', excludeIds = [], onChange, onSelect, }) => {
     const [options, setOptions] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [searching, setSearching] = useState(false);
     const [open, setOpen] = useState(false);
     const blurTimer = useRef(null);
     // Set right after a selection so the value-change effect doesn't immediately
@@ -36,7 +37,7 @@ const PatientAllergyLookupInput = ({ id, label, conceptCategory, value, disabled
         }
         let ignore = false;
         const timer = window.setTimeout(async () => {
-            setLoading(true);
+            setSearching(true);
             try {
                 const response = await fetchAllergyLookup({ conceptCategory, searchParameter: searchText });
                 if (ignore)
@@ -56,7 +57,7 @@ const PatientAllergyLookupInput = ({ id, label, conceptCategory, value, disabled
             }
             finally {
                 if (!ignore)
-                    setLoading(false);
+                    setSearching(false);
             }
         }, DEBOUNCE_LOOKUP_MS);
         return () => {
@@ -94,9 +95,7 @@ const PatientAllergyLookupInput = ({ id, label, conceptCategory, value, disabled
         </label>)}
       <input id={id} type="text" autoComplete="off" className="form-control" value={value || ''} placeholder={placeholder} disabled={disabled} required={required && !disabled} onChange={handleInputChange} onFocus={handleFocus} onBlur={handleBlur}/>
       <span className="allergy-lookup-search-icon input-icon input-icon-left-align mdi mdi-magnify"/>
-      {loading && (<span className="small text-muted position-absolute end-0 pe-2" style={{ top: label ? 38 : 8 }}>
-          Loading...
-        </span>)}
+      {searching && (<span className="cl-skeleton-bar position-absolute end-0 me-2" style={{ top: label ? 42 : 12, width: 60 }}/>)}
       {showMenu && (<ul className="dropdown-menu show w-100" role="listbox" style={{ position: 'absolute', top: '100%', left: 0, zIndex: 1080, maxHeight: 220, overflowY: 'auto' }}>
           {options.map((option) => (<li key={`${option.id}_${option.code}`}>
               <button type="button" className="dropdown-item text-wrap" role="option" onMouseDown={(event) => { event.preventDefault(); handleSelect(option); }}>

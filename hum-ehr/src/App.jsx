@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { apiPost } from './services/apiClient';
 import { getAuthToken, storeAuthToken } from './services/authService';
@@ -8,7 +8,7 @@ import Header from './components/Header';
 import PatientListFilter from './components/PatientListFilter';
 import QuickAccessNav from './components/QuickAccessNav';
 import ErrorBoundary from './components/ErrorBoundary';
-import ActivePatientsList from './js/patientlist/ActivePatientsList';
+import { SkeletonTable } from './components/common/ContentLoader';
 import { LayoutProvider } from './context/LayoutProvider';
 import { NotificationProvider } from './context/NotificationProvider';
 import { useAppDispatch } from './store/hooks';
@@ -30,11 +30,14 @@ import 'flatpickr/dist/flatpickr.min.css';
 import './App.css';
 
 import "./assets/plugins/font-awesome-pro/all.min.css";
-import "./assets/plugins/font-awesome-pro/all.min.js";
 import "./assets/css/fontawesome/css/font-awesome.css";
 
 // Responsive overrides — must load after App.css so its media queries win.
 import './styles/responsive.css';
+
+// Route-level code-splitting: the patient list and message center load on demand.
+const ActivePatientsList = lazy(() => import('./js/patientlist/ActivePatientsList'));
+const MessageCenter = lazy(() => import('./js/message-center/MessageCenter'));
 
 const readMemory = () => {
     const cached = sessionStorage.getItem('patientChartInformation');
@@ -127,6 +130,21 @@ const App = () => {
             setActiveTab('patient_list');
         }
     };
+    // Patient deactivation / deceased save (Patient Profile) closes the
+    // workspace tab and returns to the list, mirroring the legacy flow.
+    useEffect(() => {
+        const onForcedClose = (event) => {
+            const id = event.detail?.patientId;
+            if (!id) return;
+            const memory = readMemory();
+            delete memory[`${id}_patient_details`];
+            sessionStorage.setItem('patientChartInformation', JSON.stringify(memory));
+            setOpenTabs(Object.values(memory));
+            setActiveTab('patient_list');
+        };
+        window.addEventListener('hum-ehr:closePatientTab', onForcedClose);
+        return () => window.removeEventListener('hum-ehr:closePatientTab', onForcedClose);
+    }, []);
     if (loading)
         return <div className="text-center mt-5">Loading application framework shell...</div>;
     return (<NotificationProvider>
@@ -142,12 +160,14 @@ const App = () => {
             <div className="row m-0">
                 <div id="application_body_container" className="container-fluid hh-ehr-bg-color7">
                     <ErrorBoundary>
+                    <Suspense fallback={<div className="p-3"><SkeletonTable /></div>}>
                     <Routes>
                         <Route path="/" element={<Navigate to="/patients" replace />} />
                         <Route path="/patients" element={<ActivePatientsList activeTab={activeTab} onOpenTab={handleOpenPatientWorkspace} />} />
                         <Route path="/dashboard" element={<div className="p-4 text-muted">Dashboard (not migrated yet).</div>} />
-                        <Route path="/messages" element={<div className="p-4 text-muted">Message Center (not migrated yet).</div>} />
+                        <Route path="/message-center" element={<MessageCenter />} />
                     </Routes>
+                    </Suspense>
                     </ErrorBoundary>
                 </div>
             </div>

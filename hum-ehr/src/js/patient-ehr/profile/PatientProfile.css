@@ -1,0 +1,248 @@
+/* Patient Profile — styles carried over from patient-profile-template.jsp */
+
+.patient-profile-node .patient-profile-toggle-group .nav-link {
+    color: black;
+}
+.patient-profile-node .patient-profile-toggle-group .nav-link.active {
+    background: var(--app-color2, #189FAA) !important;
+    color: #fff !important;
+    border-bottom: 1px var(--app-color2, #189FAA) solid;
+    border-radius: 10px 10px 0 0 !important;
+}
+.patient-profile-node .patient-demographics-container {
+    border-radius: 0 8px 8px 8px;
+    border: 1px solid #B5B5B5;
+    background: #fff;
+}
+
+/* Soft pill sub-tabs (demographics view/edit, contact info, others) */
+.pp-soft-nav-pill {
+    border-radius: 12px;
+    border-top: 1px solid #F2F4F7;
+    background: #F2F4F7;
+    display: inline-flex;
+    padding: 4px;
+    margin-bottom: 10px;
+}
+.pp-soft-nav-pill .nav-link {
+    color: #667085 !important;
+    font-size: 14px !important;
+    border: none;
+    background: transparent;
+}
+.pp-soft-nav-pill .nav-link.active {
+    border-radius: 8px !important;
+    background: #FFF !important;
+    color: #189FAA !important;
+    box-shadow: 0 1px 3px 0 rgba(16, 24, 40, 0.10), 0 1px 2px 0 rgba(16, 24, 40, 0.06) !important;
+}
+
+.pp-edit-btn {
+    background: var(--app-color4, #189FAA) !important;
+    color: #FFF !important;
+    border-radius: 6px !important;
+    padding: 0px 8px !important;
+    border: 1px solid var(--app-color4, #189FAA) !important;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+}
+.pp-edit-btn .mdi { line-height: normal !important; }
+.pp-edit-btn-outline {
+    color: var(--app-color4, #189FAA) !important;
+    border-radius: 6px !important;
+    padding: 0px 8px !important;
+    border: 1px solid var(--app-color4, #189FAA) !important;
+    background: #fff !important;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.pp-label { color: #6c757d; font-size: 0.85rem; }
+
+/* Demographics view avatar */
+.pp-avatar-name {
+    width: 150px;
+    height: 150px;
+    border-radius: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 45px;
+    background: #DBF6F8;
+}
+
+/* Demographics edit — section timeline */
+.pp-demographics-sections {
+    border-radius: 12px;
+    border: 1px solid #D7DDE3;
+    padding: 10px;
+    margin: 10px 0px;
+}
+.pp-demographics-sections-connector { border-left: 2px dashed #B0B0B0; }
+.pp-selected-chip-container {
+    border-radius: 4px;
+    border: 1px solid #D7DDE3;
+    padding: 6px;
+}
+.pp-selected-chip {
+    display: inline-flex;
+    padding: 2px 6px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 4px;
+    background: #E6FAF7;
+    margin: 2px 8px 2px 0;
+}
+.pp-selected-chip .pp-chip-remove { cursor: pointer; color: var(--app-color2, #189FAA); }
+.pp-cancel-btn {
+    background-color: var(--app-color, #f4f4f4) !important;
+    color: #545454;
+    min-width: 76px;
+    border-radius: 30px !important;
+    border: 1px solid #545454;
+}
+
+/* Bordered detail cards (phone view, address view) */
+.pp-detail-card {
+    border-radius: 12px;
+    border: 1px solid #D7DDE3;
+    background: #fff;
+}
+.pp-verified-icon { width: 22px; height: 22px; }
+
+/* Address view */
+.pp-address-card { border-radius: 16px; border: 1px solid #D7DDE3; }
+.pp-prev-address-dot { color: #8798AD; }
+.pp-prev-address-line { border-left: 2px dashed #D7DDE3; flex-grow: 1; }
+
+/* Preferred day & time view/edit table */
+.pp-pref-table { max-width: 640px; }
+.pp-pref-table th { background: #fff; }
+.pp-pref-table tr { border-style: hidden; }
+.pp-pref-table tr.disabled td { color: grey; opacity: 0.7; }
+.pp-pref-table input[readonly] { color: grey; pointer-events: none; }
+
+/* Care team member cards */
+.pp-care-team-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 12px;
+    transition: background 0.2s ease-in-out;
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: 0 2px 6px #00000040;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    gap: 12px;
+}
+.pp-care-team-section-name {
+    color: var(--app-color4, #189FAA);
+    font-size: 1rem;
+    padding: 8px 0px;
+}
+.pp-member-avatar {
+    width: 45px;
+    height: 45px;
+    min-width: 45px;
+    border-radius: 50%;
+    background: #DBF6F8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+.pp-accordion-item {
+    border: 1px solid #E6E6E6;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    overflow: hidden;
+}
+.pp-accordion-header {
+    background: #F0F0F0;
+    border-bottom: 1px solid #E6E6E6;
+    border-radius: 8px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+}
+.pp-provider-card {
+    box-shadow: 0 2px 6px #00000040;
+    border-radius: 10px;
+    padding: 16px 12px;
+    margin: 10px 0;
+}
+.pp-record-action-icon {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+}
+.pp-record-action-icon.edit { background: var(--app-color2, #189FAA); color: #fff; }
+.pp-record-action-icon.delete { background: #f1f3f5; color: #212529; }
+
+/* Care givers */
+.pp-care-givers-list-body {
+    padding: 5px;
+    box-shadow: 0px 0px 2px;
+    border-radius: 5px;
+}
+.pp-care-giver-row { border-bottom: 1px solid #ddd; padding-bottom: 10px; }
+.pp-care-giver-row:last-child { border-bottom: none; }
+
+/* Deactivation */
+.pp-deactivate-toggle {
+    width: 40px;
+    height: 20px;
+    cursor: pointer;
+}
+.pp-file-chip {
+    width: 160px;
+    display: inline-block;
+    height: 30px;
+    background-color: var(--app-color2, #189FAA);
+    color: white;
+    border-radius: 10px;
+    margin-right: 15px;
+    margin-bottom: 7px;
+    position: relative;
+}
+.pp-file-chip-text {
+    display: block;
+    overflow: hidden;
+    width: 120px;
+    padding: 5px 8px;
+    height: 26px;
+    white-space: nowrap;
+}
+.pp-file-chip-remove {
+    position: absolute;
+    top: 1px;
+    right: 6px;
+    padding: 4px;
+    cursor: pointer;
+}
+
+/* Mobile access edit */
+.pp-password-input-group { position: relative; }
+.pp-password-input-group .pp-password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 0px;
+    cursor: pointer;
+}
+
+@media (max-width: 991.98px) {
+    .pp-avatar-name { width: 100px; height: 100px; font-size: 32px; }
+    .patient-profile-node .patient-profile-toggle-group .nav-link { font-size: 13px; padding: 6px 10px; }
+    .pp-care-team-card { flex-wrap: wrap; }
+}

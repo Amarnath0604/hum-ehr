@@ -1,0 +1,95 @@
+/* Universal File Uploader — ported from universal-file-uploader-template.jsp <style>. */
+.universal-file-uploader .uploader-dropzone-container {
+    padding: 10px;
+    border-radius: 12px;
+    border: 1px solid #F0EBEB;
+    background: #EEF9FA;
+}
+.universal-file-uploader.in-base-app .uploader-dropzone-container {
+    background-color: #EEF4FA;
+}
+.universal-file-uploader .uploader-area-box {
+    width: 100%;
+    border: 2px dashed var(--app-color33, #01c1d1);
+    background-color: #f4fcfd;
+    border-radius: 10px;
+    padding: 16px;
+    cursor: pointer;
+    transition: background-color .2s ease, border-color .2s ease;
+    margin-bottom: 8px;
+}
+.universal-file-uploader.in-base-app .uploader-area-box {
+    background-color: #F4F8FD;
+}
+.universal-file-uploader .uploader-area-box:hover {
+    background-color: #f8fcfc;
+    border-color: var(--app-color34, #089BAB);
+}
+.universal-file-uploader .uploader-clickable-text,
+.universal-file-uploader .uploader-main-icon {
+    color: #089BAB;
+}
+.universal-file-uploader .uploader-main-icon i {
+    font-size: 28px;
+}
+.universal-file-uploader .uploader-info-text {
+    font-size: 13px;
+    color: #333;
+}
+.universal-file-uploader .uploader-hint-text {
+    font-size: 11px;
+    color: #777;
+}
+.universal-file-uploader .uploader-drag-overlay {
+    height: 110px;
+    align-items: center;
+    justify-content: center;
+    color: #089BAB;
+}
+.universal-file-uploader .uploader-drag-overlay i {
+    font-size: 32px;
+}
+.universal-file-uploader .fum-chip {
+    background: #ffffff;
+    border: 1px solid #c5eaee;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 12px;
+    margin-bottom: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    margin-top: 8px;
+}
+.universal-file-uploader .fum-chip-view {
+    color: #089BAB;
+    font-weight: 600;
+    text-decoration: underline;
+    background: none;
+    border: none;
+    padding: 0;
+}
+.universal-file-uploader.in-base-app .fum-chip-view {
+    color: #0862AB;
+}
+.universal-file-uploader .fum-chip-view:hover {
+    color: #047a85;
+}
+.universal-file-uploader .fum-chip-remove {
+    cursor: pointer;
+    transition: transform 0.1s ease;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    border-radius: 50%;
+    background-color: #FAEAEA;
+    line-height: 6px;
+}
+.universal-file-uploader .fum-chip-remove:hover {
+    transform: scale(1.15);
+}
+.universal-file-uploader .fum-chip-delete-icon {
+    height: 10px !important;
+    width: 10px !important;
+}

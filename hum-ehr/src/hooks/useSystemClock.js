@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import moment from 'moment-timezone';
+import moment from '../utils/dayjs';
 /**
  * Real-time clock that re-renders every second. Returns a `moment` object so
  * the caller can format it however it needs. Pass an IANA/legacy zone code

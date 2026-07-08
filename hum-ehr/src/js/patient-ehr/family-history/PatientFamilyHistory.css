@@ -1,0 +1,76 @@
+/* Family Health History — matrix table (members × SNOMED conditions).
+   Distilled from the legacy patient-family-history / add-edit templates. */
+
+.pcfh-table-scroll-container {
+    max-width: 100%;
+    overflow: auto;
+}
+.pcfh-table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+.pcfh-table thead tr th {
+    min-width: 150px;
+    height: 50px;
+    text-align: center;
+    vertical-align: middle;
+}
+.pcfh-table thead tr th:nth-child(1) {
+    width: 20%;
+    text-align: left;
+}
+/* Sticky first column (condition names) */
+.pcfh-table th:first-child,
+.pcfh-table td:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background: #f2f7f8;
+    color: #526172;
+}
+.pcfh-table th:first-child {
+    z-index: 1000;
+}
+.pcfh-family-member-details-title {
+    font-size: 16px;
+    color: #526172;
+    font-weight: bold;
+    vertical-align: middle;
+}
+.pcfh-label-color {
+    color: #8a97a5;
+}
+
+/* Delete-member trash icon in the column header */
+.pcfh-delete-family-history {
+    cursor: pointer;
+    color: var(--app-color2, #01c1d1);
+}
+.pcfh-delete-family-member-icon {
+    padding: 5px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+/* Condition notes book icon */
+.pcfh-condition-notes {
+    color: #b7bdc4;
+    font-size: 18px;
+    cursor: not-allowed;
+}
+.pcfh-condition-notes.active-condition {
+    color: var(--app-color2, #01c1d1);
+    cursor: pointer;
+}
+.pcfh-condition-notes.active-condition.green {
+    color: #3a883a;
+}
+
+.pcfh-condition-cell {
+    text-align: center;
+    vertical-align: middle;
+}
+.pcfh-member-cell {
+    min-width: 150px;
+}

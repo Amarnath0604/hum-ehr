@@ -15,5 +15,13 @@ export const config = {
     apiBaseUrl: import.meta.env.VITE_API_BASE_URL ?? '',
     appVersion: import.meta.env.VITE_APP_VERSION ?? '',
     deviceEnv: import.meta.env.VITE_RPM_DEVICE_ENV ?? 'TEST',
+    // Message Center chat runs on a separate Node "signal" microservice
+    // (legacy `signalUrl` = SIGNAL_URL env). Chat data calls hit this base URL
+    // while everything else uses apiBaseUrl. e.g. VITE_SIGNAL_URL=http://localhost:8090
+    signalUrl: import.meta.env.VITE_SIGNAL_URL ?? '',
+    // Bugsnag browser *notifier* key — a public client-side key (like a Sentry
+    // DSN), safe to ship. Set VITE_BUGSNAG_API_KEY; error monitoring only starts
+    // in production builds when this is present.
+    bugsnagApiKey: import.meta.env.VITE_BUGSNAG_API_KEY ?? '',
 };
 export default config;

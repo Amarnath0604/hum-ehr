@@ -1,0 +1,32 @@
+/* Shared shimmer content loaders (same look as the patient-list SkeletonTable). */
+
+@keyframes cl-shimmer {
+    0% { background-position: -400px 0; }
+    100% { background-position: 400px 0; }
+}
+
+.cl-skeleton-bar {
+    height: 14px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #e8ecef 25%, #f4f6f8 50%, #e8ecef 75%);
+    background-size: 800px 100%;
+    animation: cl-shimmer 1.4s infinite linear;
+}
+
+.cl-skeleton-bar.cl-lg { height: 22px; }
+.cl-skeleton-bar.cl-sm { height: 10px; }
+
+.cl-skeleton-circle {
+    border-radius: 50%;
+    background: linear-gradient(90deg, #e8ecef 25%, #f4f6f8 50%, #e8ecef 75%);
+    background-size: 800px 100%;
+    animation: cl-shimmer 1.4s infinite linear;
+}
+
+.cl-list-row {
+    border: 1px solid #eef1f4;
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 10px;
+    background: #fff;
+}

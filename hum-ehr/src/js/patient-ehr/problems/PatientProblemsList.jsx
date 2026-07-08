@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { buildProblemDeletePayload, deletePatientProblem, fetchPatientProblems } from '../../../services/problemService';
 import patientCache from '../../../utils/patientCache';
 import { DEBOUNCE_ALLERGY_LIST_MS } from '../../../constants/timing';
+import { SkeletonTable } from '../../../components/common/ContentLoader';
 import { useNotify } from '../../../context/NotificationContext';
 import { useIsTabletOrBelow } from '../../../hooks/useMediaQuery';
 const NoProblemData = ({ recordType, showDeleted }) => {
@@ -29,15 +30,14 @@ const TypePill = ({ record }) => (record.diagnosisTypeDesc
     ? <span className="pp-patient-problem-type d-inline-block px-2">{record.diagnosisTypeDesc}</span>
     : <span>-</span>);
 const PatientProblemsList = ({ patientId, recordType, showDeleted, searchTerm, filterType, refreshKey, onEdit, onRecoverEdit, onRefresh, }) => {
-    const [records, setRecords] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [records, setRecords] = useState(null); // null = fetching (skeleton)
     const { notifyError, notifySuccess } = useNotify();
     const showCards = useIsTabletOrBelow();
     const cacheKey = useMemo(() => `${patientId}_${recordType}_PatientProblemList`, [patientId, recordType]);
     const loadProblems = useCallback(async () => {
         if (!patientId)
             return;
-        setLoading(true);
+        setRecords(null);
         try {
             const response = await fetchPatientProblems({ patientId, recordType, showDeleted, search: searchTerm, type: filterType });
             const currentRecords = response.records || [];
@@ -48,9 +48,6 @@ const PatientProblemsList = ({ patientId, recordType, showDeleted, searchTerm, f
             console.error('Failed to load patient problems.', error);
             setRecords([]);
             notifyError(error?.message || 'Unable to load problems. Please try again.');
-        }
-        finally {
-            setLoading(false);
         }
     }, [cacheKey, patientId, recordType, searchTerm, filterType, showDeleted, notifyError]);
     useEffect(() => {
@@ -75,8 +72,8 @@ const PatientProblemsList = ({ patientId, recordType, showDeleted, searchTerm, f
             }
         })();
     };
-    if (loading)
-        return <div className="p-3 text-muted small">Loading problems...</div>;
+    if (records === null)
+        return <SkeletonTable columns={['S.No', 'Problem & ICD Code', 'Type', 'Clinical Status', 'Verification Status', 'Onset Date', '']} rows={5}/>;
     if (!records.length)
         return <NoProblemData recordType={recordType} showDeleted={showDeleted}/>;
     const isDeletedRow = (record) => recordType === 'history' && record.invalidFlag === 'Y';

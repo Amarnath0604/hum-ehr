@@ -1,0 +1,124 @@
+/* Implantable Devices — list/detail reuse the shared pc-* classes; only
+   section-specific bits (from the legacy templates' <style> blocks) live here. */
+
+/* ---- List ---- */
+.implantable-each-device-detail-container {
+    cursor: pointer;
+    border-bottom: 1px solid #e1e5ea;
+    border-radius: 8px;
+}
+.implantable-each-device-detail-container.active {
+    font-weight: bold;
+    color: #089BAB;
+    background-color: rgba(240, 250, 252, 1);
+    border: 1px solid rgba(1, 193, 209, 1);
+}
+.implantable-each-device-detail-container.in-active-deleted-record {
+    opacity: 0.85;
+}
+.implantable-each-device-detail-container .implant-device-name {
+    font-weight: 600;
+}
+.implantable-each-device-detail-container .implant-device-date {
+    font-size: 11px;
+}
+
+/* ---- Details ---- */
+.implant-device-details-main-container .implant-device-details-common-class {
+    color: #526172;
+}
+.implant-device-details-main-container .implant-device-details-common-class.error-in {
+    text-decoration: line-through;
+    text-decoration-color: red;
+    text-decoration-thickness: 2px;
+}
+.implant-device-details-main-container .pc-implant-device-expired-warning {
+    color: #FF9500;
+}
+.implant-device-details-main-container .implant-device-show-hide-view-btn {
+    font-weight: 700;
+    color: #089BAB;
+    cursor: pointer;
+}
+.implant-device-details-main-container #pc_implantable_device_edit_button {
+    border-radius: 6px;
+    padding: 2px 10px;
+    border: 1px solid var(--app-color4, #089BAB);
+    color: var(--app-color4, #089BAB);
+    background: transparent;
+    cursor: pointer;
+}
+.implant-device-details-main-container .implant-device-action-icons .mdi {
+    cursor: pointer;
+    font-size: 18px;
+}
+.implant-device-details-main-container .delete-implant-device-icon {
+    color: #D50B0B;
+}
+
+/* Status dropdown (Change Status → Inactive / Mark As Error) */
+.implant-device-details-main-container #pc_implantable_device_status_button {
+    cursor: pointer;
+    background-color: #F6F6F6;
+    border: 1px solid #D7DDE3;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+}
+.implant-device-details-main-container .pcid-device-status-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    z-index: 20;
+    background: #fff;
+    border: 1px solid #D7DDE3;
+    border-radius: 6px;
+    min-width: 8.5rem;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+.implant-device-details-main-container .pcid-device-status-menu li {
+    padding: 4px 15px;
+    cursor: pointer;
+}
+.implant-device-details-main-container .pcid-device-status-menu li + li {
+    border-top: #888 1px solid;
+}
+.implant-device-details-main-container .pcid-device-status-menu li:hover {
+    background: var(--app-color2, #01c1d1);
+    color: #fff;
+}
+
+/* Expiry alert banner */
+.implant-device-expiration-alert-container {
+    background-color: #FFE2E2;
+    border-radius: 10px;
+}
+
+/* ---- Add / Edit form ---- */
+.pcid-non-editable-device-details,
+.pcid-add-edit-device-details,
+.pcid-add-edit-explantation-details {
+    border: 1px solid #D7DDE3;
+    border-radius: 12px;
+}
+.pcid-label-name {
+    color: #526172;
+    font-size: 14px;
+    font-weight: 400;
+}
+.pcid-label-name-header {
+    color: #526172;
+    font-size: 14px;
+    font-weight: 600;
+}
+.pcid-selected-link-chip {
+    border-radius: 10px;
+    background-color: #F6F6F6;
+    color: var(--app-color2, #01c1d1);
+}
+.implantation-alert-message {
+    color: #ff7801;
+}

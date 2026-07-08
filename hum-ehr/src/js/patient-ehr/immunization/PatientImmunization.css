@@ -1,0 +1,31 @@
+/* Immunization — list/detail rows reuse the shared pc-list-each-details /
+   patient-chart classes; only section-specific bits are defined here. */
+
+.immunization-each-vaccine-detail-container {
+    cursor: pointer;
+    border-radius: 8px;
+}
+.immunization-each-vaccine-detail-container.active {
+    background-color: rgba(240, 250, 252, 1);
+    border: 1px solid rgba(1, 193, 209, 1);
+}
+.vaccine-name {
+    font-weight: 600;
+}
+
+.immunization-vaccine-details-main-container .vaccine-action-icons .mdi {
+    cursor: pointer;
+    font-size: 18px;
+}
+.immunization-vaccine-details-main-container .vaccine-delete-device-icon {
+    color: #D50B0B;
+}
+.immunization-vaccine-details-main-container .vaccine-action-icons .disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+.immunization-vaccine-details-main-container .show-hide-view-btn {
+    cursor: pointer;
+    color: var(--app-color2);
+    font-weight: 600;
+}

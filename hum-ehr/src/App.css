@@ -228,7 +228,7 @@
 
 .btn {
    font-size: var(--app-font14) !important;
-   padding: 5px 15px !important;
+   padding: 5px 15px;
 }
 
 .btn.btn-primary:hover {

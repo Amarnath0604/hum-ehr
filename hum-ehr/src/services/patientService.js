@@ -1,3 +1,4 @@
+// @ts-check
 import ENDPOINTS from "./endpoints";
 import { apiPost, apiPostForm } from "./apiClient";
 export const buildActivePatientListRequest = ({
@@ -29,6 +30,11 @@ export const buildActivePatientListRequest = ({
 	search: filters.search || "",
 	searchColumn: filters.searchColumn || "PATIENNAME",
 });
+/**
+ * Normalize a raw API patient record into the row shape the UI consumes.
+ * @param {Record<string, any>} patient
+ * @returns {import('../types/models').ActivePatientRow}
+ */
 export const mapActivePatientRow = (patient) => ({
 	id: patient.patientId,
 	patientId: patient.patientId,
@@ -47,6 +53,11 @@ export const mapActivePatientRow = (patient) => ({
 	workPhoneInvalidFlag: patient.workPhoneInvalidFlag,
 	raw: patient,
 });
+/**
+ * Fetch and map the active patient list.
+ * @param {Object} [params] buildActivePatientListRequest options
+ * @returns {Promise<import('../types/models').ActivePatientsResult>}
+ */
 export const fetchActivePatients = async (params = {}) => {
 	const request = buildActivePatientListRequest(params);
 	const response = await apiPost(ENDPOINTS.patient.activeList, request);

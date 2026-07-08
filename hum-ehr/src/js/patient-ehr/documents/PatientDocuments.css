@@ -1,0 +1,148 @@
+/* Patient EHR Documents — distilled from the legacy list / add-edit / view templates. */
+
+/* ---- Group nav pills ---- */
+.patient-documents-nav-pill {
+    border-radius: 12px;
+    border-top: 1px solid #F2F4F7;
+    background: #F2F4F7;
+}
+.patient-documents-nav-pill button {
+    color: #667085 !important;
+    font-size: 14px !important;
+    border: none;
+    background: transparent;
+}
+.patient-documents-nav-pill button.active {
+    border-radius: 8px;
+    background: #FFF !important;
+    color: #189FAA !important;
+    box-shadow: 0 1px 3px 0 rgba(16, 24, 40, 0.10), 0 1px 2px 0 rgba(16, 24, 40, 0.06) !important;
+}
+
+/* ---- Header (search / filter / add) ---- */
+.pd-patient-documents-main-header #pc_search_document_input {
+    background-color: var(--app-color16, #f2f4f7);
+    border: none;
+    border-radius: 20px;
+    font-size: 15px;
+    width: 370px;
+    max-width: 100%;
+}
+.pd-patient-documents-main-header .search-input-icon {
+    position: absolute;
+    top: 6px;
+    right: 12px;
+}
+.pd-patient-documents-filter-icon,
+.pd-patient-documents-filter-icon:hover,
+.pd-patient-documents-filter-icon:focus,
+.pd-patient-documents-filter-icon:active {
+    border: 1px solid var(--app-color2, #01c1d1);
+    border-radius: 8px;
+    color: var(--app-color2, #01c1d1);
+    background: transparent;
+}
+
+/* ---- Table ---- */
+.pd-patient-documents-list-body .table-data {
+    max-width: 200px;
+    word-wrap: break-word;
+}
+.ehr-patient-documents-list-icons {
+    cursor: pointer;
+    padding: 4px 10px;
+    white-space: nowrap;
+}
+.ehr-patient-documents-list-icons:hover {
+    background: #f2f4f7;
+}
+.pc-documents-action-menu {
+    list-style: none;
+    margin: 0;
+    padding: 4px 0;
+    position: absolute;
+    right: 0;
+    z-index: 30;
+    background: #fff;
+    border: 1px solid #D7DDE3;
+    border-radius: 6px;
+    min-width: 195px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+.pc-documents-action-icon {
+    cursor: pointer;
+    font-size: 18px;
+}
+
+/* ---- Filter panel ---- */
+.pc-patient-document-category-filter-container #pc_patient_document_category_filter_search {
+    border: 0;
+}
+.pc-patient-document-category-filter-container #pc_patient_document_category_filter_search:focus {
+    box-shadow: none;
+    border: 0;
+}
+.pc-patient-document-category-filter-container .filter-search-underline {
+    border-bottom: 2px solid #dee2e6;
+}
+.pc-patient-document-category-filter-list label {
+    display: block;
+    margin-bottom: 4px;
+}
+.pc-documents-filter-cancel-button {
+    border: 1px solid var(--app-color2, #01c1d1);
+    border-radius: 16px;
+}
+
+/* ---- Add / Edit file chips (legacy .file-chip) ---- */
+.pc-patient-document-files-container .file-chip {
+    width: 140px;
+    display: inline-block;
+    height: 30px;
+    background-color: var(--app-color2, #01c1d1);
+    color: white;
+    border-radius: 10px;
+    margin-right: 15px;
+    margin-bottom: 7px;
+    position: relative;
+}
+.pc-patient-document-files-container .file-chip-text {
+    display: block;
+    overflow: hidden;
+    width: 120px;
+    padding: 5px 8px;
+    height: 22px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.pc-patient-document-files-container .file-delete-span {
+    position: absolute;
+    top: 1px;
+    right: 6px;
+    padding: 4px;
+    cursor: pointer;
+}
+
+/* ---- View documents ---- */
+.pc-patient-document-view-wrapper .border-section {
+    border: 1px solid #E1E1E1;
+}
+.pc-patient-document-nav-buttons {
+    color: var(--app-color2, #01c1d1);
+    width: 100%;
+    text-align: left;
+    border: none;
+    background: transparent;
+    border-radius: 6px;
+    padding: 6px 10px;
+}
+.pc-patient-document-nav-buttons.active,
+.pc-patient-document-nav-buttons:hover {
+    background-color: var(--app-color2, #01c1d1) !important;
+    border-color: var(--app-color2, #01c1d1) !important;
+    color: white;
+}
+.pc-patient-document-document-doc-viewer iframe,
+.pc-patient-document-document-doc-viewer img {
+    width: 100%;
+}
