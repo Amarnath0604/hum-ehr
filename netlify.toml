@@ -1,0 +1,14 @@
+[build]
+  base = "hum-ehr"
+  command = "npm run build"
+  publish = "dist"
+
+[[redirects]]
+  from = "/"
+  to = "/ehr/"
+  status = 301
+
+[[redirects]]
+  from = "/ehr/*"
+  to = "/ehr/index.html"
+  status = 200
